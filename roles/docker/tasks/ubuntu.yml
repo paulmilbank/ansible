@@ -5,4 +5,4 @@
     name: "{{ docker_packages_ubuntu }}"
     state: latest
     update_cache: yes
-  become: yes
+  become: true

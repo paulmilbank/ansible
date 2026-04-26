@@ -3,14 +3,14 @@
   apt:
     name: "{{ dependencies_packages }}"
     state: present
-  become: yes
+  become: true
   when: ansible_distribution in ["Ubuntu", "Pop!_OS", "Linux Mint"]
 
 - name: Fedora | Install dependencies
   dnf:
     name: "{{ dependencies_packages }}"
     state: present
-  become: yes
+  become: true
   when: ansible_distribution == 'Fedora'
 
 - name: Fetch repo for n
@@ -21,18 +21,18 @@
 - name: check n installed
   shell: "which n"
   register: n_installed
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install n
   make:
     chdir: /home/{{ ansible_user_id }}/tools/n
     target: install
   when: n_installed.stdout != "/usr/local/bin/n"
-  become: yes
+  become: true
 
 - name: Install node with n
   command: "n {{ node_version }}"
-  become: yes
+  become: true
 
 - name: Check node installed
   command: "node -v"

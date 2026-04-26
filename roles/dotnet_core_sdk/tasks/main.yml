@@ -3,7 +3,7 @@
 - name: check if dotnet sdk is installed
   shell: which dotnet
   register: dotnet_installed
-  ignore_errors: yes
+  ignore_errors: true
 
 - include_tasks: ubuntu.yml
   when:
@@ -19,7 +19,7 @@
   snap:
     name: "dotnet-sdk"
     classic: yes
-  become: yes
+  become: true
   when:
     - snap_dotnet_install | bool
     - dotnet_installed.rc == 1

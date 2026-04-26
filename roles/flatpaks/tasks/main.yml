@@ -9,14 +9,14 @@
     - flatpak_install_ppa
     - ansible_distribution in ["Ubuntu", "Pop!_OS"]
     - ansible_distribution_version < "18.10"
-  become: yes
+  become: true
 
 - name: Install Flatpak pre-reqs
   apt:
     name: "{{ flatpak_pre_req_packages }}"
     update-cache: Yes
     state: present
-  become: yes
+  become: true
   when:
     - ansible_distribution in ["Ubuntu", "Pop!_OS"]
   register: flatpak_installed
@@ -26,18 +26,18 @@
     name: "{{ item.name }}"
     flatpakrepo_url: "{{ item.remote_url }}"
   with_items: "{{ flatpak_repos }}"
-  become: yes
+  become: true
 
 - name: Don't filter flathub
   ansible.builtin.command: "flatpak remote-modify flathub --no-filter"
-  become: yes  
+  become: true
 
 - name: Install Flatpak apps
   flatpak:
     name: "{{ item.name }}"
     remote: "{{ item.remote }}"
   with_items: "{{ flatpaks }}"
-  become: yes
+  become: true
 
 - name: Get Flatpak location
   command: which flatpak
@@ -51,5 +51,5 @@
     special_time: daily
     job: "{{ flatpak_location.stdout }} update -y"
   when: flatpak_installed.changed
-  become: yes
+  become: true
 

@@ -8,11 +8,11 @@
     enabled: yes
     gpgcheck: yes
     gpgkey: "{{ fedora_docker_key_url }}"
-  become: yes
+  become: true
 
 - name: Install required packages
   dnf:
     name: "{{ docker_packages_fedora }}"
     state: latest
     update_cache: yes
-  become: yes
+  become: true

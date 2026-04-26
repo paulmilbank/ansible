@@ -17,7 +17,7 @@
     - ansible_distribution in ["Ubuntu", "Pop!_OS"]
     - gnome_installed
     - ansible_distribution_version >= "22.04"
-  become: yes
+  become: true
 
 - name: Fedora | Install Gnome apps
   dnf:
@@ -27,7 +27,7 @@
     - ansible_distribution == "Fedora"
     - gnome_installed
     - ansible_distribution_version >= "36"
-  become: yes
+  become: true
 
 - name: Ubuntu | Install Gnome extensions
   apt:
@@ -37,7 +37,7 @@
     - ansible_distribution in ["Ubuntu", "Pop!_OS"]
     - gnome_installed
     - ansible_distribution_version < "21.10"
-  become: yes
+  become: true
 
 - name: Fedora | Install Gnome extensions
   dnf:
@@ -46,4 +46,4 @@
   when:
     - ansible_distribution == "Fedora"
     - gnome_installed
-  become: yes
+  become: true

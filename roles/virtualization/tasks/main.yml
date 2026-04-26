@@ -1,14 +1,14 @@
 ---
 - name: Check kvm enabled
   command: egrep -c '(vmx|svm)' /proc/cpuinfo
-  become: yes
+  become: true
   register: kvm_enabled
 
 - name: Ubuntu | Install KVM pre-requisite packages
   apt:
     name: "{{ kvm_packages }}"
     state: present
-  become: yes
+  become: true
   when:
   - kvm_enabled.stdout > "0"
   - ansible_distribution in ["Ubuntu", "Pop!_OS", "Linux Mint"]
@@ -17,7 +17,7 @@
   dnf:
     name: "{{ kvm_packages }}"
     state: present
-  become: yes
+  become: true
   when:
   - kvm_enabled.stdout > "0"
   - ansible_distribution == 'Fedora'
@@ -28,7 +28,7 @@
     state: started
     enabled: yes
     daemon_reload: yes
-  become: yes
+  become: true
   when: kvm_enabled.stdout > "0"
 
 - name: Add existing user '{{ ansible_user_id }}' to virt groups Ubuntu
@@ -37,7 +37,7 @@
     groups: "{{ item }}"
     append: yes
   loop: "{{ virt_groups_ubuntu }}"
-  become: yes
+  become: true
   when: ansible_distribution in ["Ubuntu", "Pop!_OS", "Linux Mint"]
 
 - name: Add existing user '{{ ansible_user_id }}' to virt groups Fedora
@@ -46,5 +46,5 @@
     groups: "{{ item }}"
     append: yes
   loop: "{{ virt_groups_fedora }}"
-  become: yes
+  become: true
   when: ansible_distribution == 'Fedora'

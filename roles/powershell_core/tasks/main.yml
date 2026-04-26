@@ -3,24 +3,24 @@
   apt:
     name: snapd
     state: present
-  become: yes
+  become: true
   when: ansible_distribution in ["Ubuntu", "Pop!_OS"]
 
 - name: Fedora | Check Snap is installed
   dnf:
     name: snapd
     state: present
-  become: yes
+  become: true
   when: ansible_distribution == 'Fedora'
 
 - name: check Powershell installed
   shell: which pwsh
   register: powershell_installed
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: install Powershell if not installed
   snap:
     name: "powershell"
     classic: yes
   when: powershell_installed.stdout != '/snap/bin/pwsh'
-  become: yes
+  become: true

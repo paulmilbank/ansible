@@ -5,14 +5,14 @@
     name: "{{ rpm_fusion_repos }}"
     state: present
     disable_gpg_check: yes
-  become: yes
+  become: true
 
 - name: Install required packages
   dnf:
     name: "{{ required_packages }}"
     state: latest
   when: required_packages is defined
-  become: yes
+  become: true
 
 - name: Check if PostgreSQL database is initialized.
   stat:

@@ -3,20 +3,20 @@
   file:
     path="/etc/apt/preferences.d/nosnap.pref"
     state=absent
-  become: yes
+  become: true
 
 - name: Ubuntu | Check Snap is installed
   apt:
     name: snapd
     state: present
-  become: yes
+  become: true
   when: ansible_distribution in ['Ubuntu', 'Pop!_OS', 'Linux Mint']
 
 - name: Fedora | Check Snap is installed
   dnf:
     name: snapd
     state: present
-  become: yes
+  become: true
   when: ansible_distribution == 'Fedora'
 
 - name: Fedora | Create /snap symlink
@@ -26,7 +26,7 @@
     owner: root
     group: root
     state: link
-  become: yes
+  become: true
   when: ansible_distribution == "Fedora"
 
 - name: Install Snap packages
@@ -36,7 +36,7 @@
     - snap_packages is defined
     - "not item.classic"
   with_items: "{{ snap_packages }}"
-  become: yes
+  become: true
 
 - name: Install classic confinement Snap packages
   snap:
@@ -46,8 +46,8 @@
     - snap_packages is defined
     - "item.classic"
   with_items: "{{ snap_packages }}"
-  become: yes
+  become: true
 
 - name: Set Snap update schedule
   command: "snap set system refresh.timer=4:00-7:00,19:00-22:10"
-  become: yes
+  become: true

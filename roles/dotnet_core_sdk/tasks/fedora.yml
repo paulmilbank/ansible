@@ -8,11 +8,11 @@
     enabled: yes
     gpgcheck: yes
     gpgkey: "{{ fedora_dotnet_key_url }}"
-  become: yes
+  become: true
 
 - name: install dotnet core
   dnf:
     name: "{{ dotnet_sdk_package }}"
     state: latest
     update_cache: yes
-  become: yes
+  become: true

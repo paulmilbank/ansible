@@ -11,7 +11,7 @@
     name: '{{ ansible_user_id }}'
     groups: docker
     append: yes
-  become: yes
+  become: true
 
 - name: Enable docker service
   systemd:
@@ -19,4 +19,4 @@
     enabled: yes
     masked: no
     state: reloaded
-  become: yes
+  become: true

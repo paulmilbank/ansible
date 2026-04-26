@@ -6,7 +6,7 @@
     description: "Pgadmin Repo"
     baseurl: "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/yum/pgadmin4-fedora-repo-2-1.noarch.rpm"
   when: install_pgadmin
-  become: yes
+  become: true
 
 - name: add pgadmin to postgres packages
   set_fact:
@@ -18,7 +18,7 @@
     name: "{{ postgres_packages_fedora }}"
     state: latest
     update_cache: yes
-  become: yes
+  become: true
 
 - name: Check if PostgreSQL database is initialized.
   stat:
@@ -37,4 +37,4 @@
     enabled: yes
     masked: no
     state: reloaded
-  become: yes
+  become: true
