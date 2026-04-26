@@ -15,16 +15,13 @@
       - smartmontools
       - git
       - build-essential
-      - cheese
       - curl
-      - python3-distutils
       - apt-transport-https
       - ca-certificates
       - zsh
       - vim
       - fonts-powerline
       - fonts-firacode
-      - tilix
       - python3
       - transmission
       - steam
@@ -40,11 +37,9 @@
       - { name: us.zoom.Zoom, remote: flathub}
       - { name: org.gnome.meld, remote: flathub}
       - { name: net.bartkessels.getit, remote: flathub }
-      - { name: org.libreoffice.LibreOffice, remote: flathub }
       - { name: com.spotify.Client, remote: flathub }
       - { name: com.slack.Slack, remote: flathub }
       - { name: org.openttd.OpenTTD, remote: flathub }
-      - { name: org.gnome.Geary, remote: flathub }
       - { name: org.gnome.Boxes, remote: flathub }
       - { name: com.bitwarden.desktop, remote: flathub }
 

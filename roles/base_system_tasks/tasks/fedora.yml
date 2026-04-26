@@ -14,20 +14,6 @@
   when: required_packages is defined
   become: yes
 
-- name: remove yum email apps
-  dnf:
-    name: "{{ email_packages }}"
-    state: absent
-  become: yes
-
-- name: Remove libreoffice
-  dnf:
-    name: libreoffice*
-    state: absent
-    autoremove: yes
-  become: yes
-  ignore_errors: yes
-
 - name: Check if PostgreSQL database is initialized.
   stat:
     path: "{{ postgresql_data_dir }}/PG_VERSION"
