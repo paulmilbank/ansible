@@ -4,13 +4,14 @@ dotnet_sdk_package:
 dotnet_sdk_requirements:
   - apt-transport-https
 
-dotnet_targetting_packs:
-  - dotnet-targeting-pack-8.0
+# dotnet_targetting_packs:
+#   - dotnet-targeting-pack-8.0
 
-dotnet_runtimes:
-  - dotnet-runtime-8.0
+# dotnet_runtimes:
+#   - dotnet-runtime-8.0
+# "{{ dotnet_sdk_package + dotnet_sdk_requirements + dotnet_targetting_packs + dotnet_runtimes }}"
 
-dotnet_packages: "{{ dotnet_sdk_package + dotnet_sdk_requirements + dotnet_targetting_packs + dotnet_runtimes }}"
+dotnet_packages: "{{ dotnet_sdk_package + dotnet_sdk_requirements }}"
 
 # Fedora
 fedora_dotnet_baseurl: "https://packages.microsoft.com/fedora/{{ ansible_distribution_version }}/prod/"
