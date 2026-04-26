@@ -5,23 +5,25 @@
     apt:
       name: "{{ ubuntu_dependencies }}"
       state: present
-    become: yes
+    become: true
 
-  - name: Install key
-    become: yes
-    apt_key:
-      url: 'https://packages.microsoft.com/keys/microsoft.asc'
-      state: present
+  - name: Install keyring
+    shell: |
+      set -o pipefail
+      curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+    args:
+      creates: /usr/share/keyrings/microsoft.gpg
+    become: true
 
   - name: Install VS Code repo
-    become: yes
+    become: true
     apt_repository:
-      repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main
       filename: vscode
       state: present
 
   - name: Install VS Code
-    become: yes
+    become: true
     apt:
       name: "code{{ (visual_studio_code_version != '') | ternary('=' + visual_studio_code_version, '') }}"
       state: present
@@ -33,7 +35,7 @@
     dnf:
       name: "{{ fedora_dependencies }}"
       state: present
-    become: yes
+    become: true
 
   - name: Install VS Code repo
     yum_repository:
@@ -41,12 +43,12 @@
       description: Visual Studio Code Repo
       baseurl: https://packages.microsoft.com/yumrepos/vscode
       enabled: yes
-      gpgcheck: yes
+      gpgcheck: true
       gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-    become: yes
+    become: true
 
   - name: Install VS Code
-    become: yes
+    become: true
     dnf:
       name: "code{{ (visual_studio_code_version != '') | ternary('=' + visual_studio_code_version, '') }}"
       state: present

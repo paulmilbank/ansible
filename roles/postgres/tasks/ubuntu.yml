@@ -2,22 +2,23 @@
 
 - name: kill elementary appcenter
   command: pkill -f io.elementary.appcenter
-  ignore_errors: yes
+  ignore_errors: true
 
-- name: install pgadmin apt public key
-  apt_key:
-    url: "{{ pgadmin_repo_pubkey_url }}"
-    state: present
-    validate_certs: yes
+- name: install pgadmin apt keyring
+  shell: |
+    set -o pipefail
+    curl -fsSL "{{ pgadmin_repo_pubkey_url }}" | gpg --dearmor -o /usr/share/keyrings/pgadmin.gpg
+  args:
+    creates: /usr/share/keyrings/pgadmin.gpg
   when: install_pgadmin
-  become: yes
+  become: true
 
 - name: add pgadmin repo
   apt_repository:
-    repo: "{{ pgadmin_repo_url }}"
+    repo: "{{ pgadmin_repo_url | regex_replace('^deb\\s+', 'deb [signed-by=/usr/share/keyrings/pgadmin.gpg] ') }}"
     state: present
   when: install_pgadmin
-  become: yes
+  become: true
 
 - name: add pgadmin to postgres packages
   set_fact:
@@ -28,6 +29,6 @@
   apt:
     name: "{{ postgres_packages_ubuntu }}"
     state: latest
-    autoremove: yes
-    update_cache: yes
-  become: yes
+    autoremove: true
+    update_cache: true
+  become: true

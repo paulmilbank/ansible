@@ -1,25 +1,27 @@
 ---
 - name: Ubuntu | Install Chrome
   block:
-  - name: Ensure Google linux signing key present
-    apt_key:
-      url: https://dl-ssl.google.com/linux/linux_signing_key.pub
-      state: present
-    become: yes
+  - name: Ensure Google chrome keyring present
+    shell: |
+      set -o pipefail
+      curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+    args:
+      creates: /usr/share/keyrings/google-chrome.gpg
+    become: true
 
   - name: Ensure Google chrome repo present
     apt_repository:
-      repo: "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main"
+      repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main"
       filename: "google-chrome"
       state: present
       update_cache: yes
-    become: yes
+    become: true
 
   - name: Install Google Chrome
     apt:
       name: "{{ chrome_package }}"
       state: present
-    become: yes
+    become: true
   when: ansible_distribution in ["Ubuntu", "Pop!_OS", "Linux Mint"]
 
 - name: Fedora | Install Chrome
@@ -32,11 +34,11 @@
       enabled: yes
       gpgcheck: yes
       gpgkey: "{{ fedora_chrome_key_url }}"
-    become: yes
+    become: true
 
   - name: Install Google Chrome
     dnf:
       name: "{{ chrome_package }}"
       state: present
-    become: yes
+    become: true
   when: ansible_distribution == 'Fedora'
